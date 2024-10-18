@@ -1,6 +1,9 @@
 name: Deploy site to github pages
 run-name: ${{ github.actor }} called this workflow 🚀
-on: [push, pull-request]
+on:  
+  push:
+    branches:
+      - master
 
 
 jobs:
