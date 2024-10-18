@@ -3,7 +3,7 @@
     "esbuild": "^0.24.0"
   },
   "scripts": {
-    "init_dir": "rm -r ./_site && cp -r ./site/static ./_site",
+    "init_dir": "rm -r -f ./_site && cp -r ./site/static ./_site",
     "build": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016",
     "minify": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016 --minify",
     "watch": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016 --watch",
