@@ -26,6 +26,6 @@ Because of CORS reasons you need to host the site using f.e. python3 as follows:
 Then go the browser and browse to:
 - localhost:8080
 
-# What actually happens
+## What actually happens
 Before each tsc build we remove the whole _site folder and copy all static files to _site again.
 Then we use ESBuild to bundle and compile all our typescript files into a single index.js file (possibly minified) which also gets copied to _site
