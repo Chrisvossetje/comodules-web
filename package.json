@@ -7,7 +7,8 @@
     "build": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016",
     "minify": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016 --minify",
     "watch": "npm run init_dir && esbuild ./site/src/main.ts --bundle --outfile=./_site/index.js --format=esm --target=es2016 --watch",
-    "typecheck": "tsc -p ./site/src"
+    "typecheck": "tsc -p ./site/src",
+    "test": "npm run typecheck"
   },
   "dependencies": {
     "@types/d3": "^7.4.3",
