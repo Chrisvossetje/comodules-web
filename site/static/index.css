@@ -25,4 +25,9 @@ svg-chart {
 .sidebar {
     width: 300px;
     position: relative;
+    margin-top: auto;
+}
+
+button {
+    margin: 10px;
 }

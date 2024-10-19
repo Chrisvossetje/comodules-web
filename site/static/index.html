@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
     <head>
         <meta charset="utf-8" />
         <title>Comodule resolver</title>
         <link rel="icon" type="image/x-icon" href="./favicon.ico">
-        <!-- <script src="https://d3js.org/d3-color.v2.min.js"></script>
-        <script src="https://d3js.org/d3-dispatch.v2.min.js"></script>
-        <script src="https://d3js.org/d3-ease.v2.min.js"></script>
-        <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
-        <script src="https://d3js.org/d3-selection.v2.min.js"></script>
-        <script src="https://d3js.org/d3-timer.v2.min.js"></script>
-        <script src="https://d3js.org/d3-transition.v2.min.js"></script>
-        <script src="https://d3js.org/d3-drag.v2.min.js"></script>
-        <script src="https://d3js.org/d3-zoom.v2.min.js"></script> -->
         <script type="module" src="./index.js"></script>
+        <link rel="stylesheet" href="pico.min.css">
         <link rel="stylesheet" href="index.css">
     </head>
-    <body>
+    <body id="drop-zone">
 
 
       <div class="visualizer" id="visualizer">
+        <div class="visualizer" id="svgchart">
+
+        </div>
         <div class="sidebar" id="sidebar">
-          LOLOLOLOLOL
+          <div id="generators"> </div>
+
+          <fieldset role="group" style="padding: 10px; margin-bottom: 0px;">
+            <input type="submit" value="X:"/>
+            <input
+                type="text"
+                name="firstname"
+                placeholder="x formula"
+                id="x-formula-input-id"
+                required
+              />
+          </fieldset>
+          <fieldset role="group" style="padding: 10px; margin-bottom: 0px;">
+            <input type="submit" value="Y:"/>
+            <input
+                type="text"
+                name="firstname"
+                placeholder="y formula"
+                id="y-formula-input-id"
+                required
+              />
+          </fieldset>
+          <div style="height: 20px;"></div>
+
+          <div class="grid">
+            <button title="Load a JSON page file" id="load-json-button-id">Load</button>
+            <a href="https://github.com/Chrisvossetje/comodule-resolver/"><button style="width: 120.5px;">Git</button></a>          
+          </div>
+          <div style="height: 40px;"></div> 
         </div>
       </div>
       

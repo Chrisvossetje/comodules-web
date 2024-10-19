@@ -5,6 +5,9 @@ export const svgNS = 'http://www.w3.org/2000/svg';
 // Code originated from: https://github.com/SpectralSequences/sseq/
 // exact file at https://github.com/SpectralSequences/sseq/tree/master/svg-chart/chart.js
 
+const CHART_CSS = `:host { display: block; } circle:hover, .selected {fill: red} .struct { stroke: black; fill: none; stroke-width: 0.02; }`;
+
+
 /**
  * A Web Component for a chart.
  *
@@ -91,7 +94,7 @@ export class SvgChart extends HTMLElement {
 
 
         const node = document.createElement('style');
-        node.textContent = ":host { display: block; } circle:hover, .selected {fill: red}, .structline { stroke: black; fill: none; stroke-width: 0.02; }";
+        node.textContent = CHART_CSS;
 
 
         this.shadowRoot.appendChild(node);
@@ -151,7 +154,7 @@ export class SvgChart extends HTMLElement {
     }
 
 
-    replaceInner(inner: string) {
+    replace_inner(inner: string) {
         this["contents"].innerHTML = inner;
     }
 
