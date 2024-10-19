@@ -17,4 +17,11 @@ export class ToStringMap<K extends Stringifiable, V> {
     public get(key: K): V | undefined {
         return this.map[key.toString()];
     }
+    public has(key: K): boolean {
+        if (this.map[key.toString()] == undefined) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

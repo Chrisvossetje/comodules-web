@@ -5,7 +5,7 @@ export const svgNS = 'http://www.w3.org/2000/svg';
 // Code originated from: https://github.com/SpectralSequences/sseq/
 // exact file at https://github.com/SpectralSequences/sseq/tree/master/svg-chart/chart.js
 
-const CHART_CSS = `:host { display: block; } circle:hover, .selected {fill: red} .struct { stroke: black; fill: none; stroke-width: 0.02; }`;
+const CHART_CSS = `:host { display: block; } circle:hover {fill: red} .struct { stroke: black; fill: none; stroke-width: 0.03; }`;
 
 
 /**
@@ -55,6 +55,8 @@ export class SvgChart extends HTMLElement {
     public xBlock: HTMLElement;
     public yBlock: HTMLElement;
 
+    public node_style: HTMLElement;
+    public line_style: HTMLElement;
 
     static get observedAttributes() {
         return ['minx', 'miny', 'maxx', 'maxy'];
@@ -77,6 +79,31 @@ export class SvgChart extends HTMLElement {
         this.onResize();
     }
 
+    public set_line_style(style: string) {
+        this.line_style.textContent = style;
+    }
+
+    public set_node_style(style: string) {
+        this.node_style.textContent = style;
+    }
+
+    public set_size(minx, maxx, miny, maxy) {
+        this.minX = parseInt(minx) - SvgChart.GRID_MARGIN;
+        this.minY = parseInt(miny) - SvgChart.GRID_MARGIN;
+        this.maxX = parseInt(maxx) + SvgChart.GRID_MARGIN;
+        this.maxY = parseInt(maxy) + SvgChart.GRID_MARGIN;
+        // this.onResize();
+        
+        // Zoom out to show the entire chart
+        const scaleX = this.width / (this.maxX - this.minX);
+        const scaleY = this.height / (this.maxY - this.minY);
+        const scale = Math.min(scaleX, scaleY); // Choose the smaller scale to ensure full visibility
+        
+        // Reset zoom to fit the new size
+        this.zoom.transform(this.select, d3.zoomIdentity.scale(scale).translate(-this.minX * scale, this.maxY * scale));
+        this.onResize();
+    }
+
     constructor() {
         super();
 
@@ -96,8 +123,12 @@ export class SvgChart extends HTMLElement {
         const node = document.createElement('style');
         node.textContent = CHART_CSS;
 
+        this.line_style = document.createElement('style');
+        this.node_style = document.createElement('style');
 
         this.shadowRoot.appendChild(node);
+        this.shadowRoot.appendChild(this.line_style);
+        this.shadowRoot.appendChild(this.node_style);
 
         this.shadowRoot.appendChild(this.svg);
 

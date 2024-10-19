@@ -1,3 +1,24 @@
+:root {
+    --pico-font-size: 100%;
+    /* Original: 100% */
+    --pico-form-element-spacing-vertical: 0.8rem;
+    /* Original: 1rem */
+    --pico-border-radius: 0.3rem;
+    /* Original: 0.25rem */
+}
+
+.katex { font-size: 1.3em; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    --pico-font-weight: 650;
+    /* Original: 700 */
+}
+
 
 body,
 html {
@@ -23,11 +44,21 @@ svg-chart {
 }
 
 .sidebar {
-    width: 300px;
+    width: 400px;
     position: relative;
-    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+}
+.top {
+    flex: 1; /* This will take available space */
 }
 
 button {
     margin: 10px;
+}
+
+.generator-math {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
