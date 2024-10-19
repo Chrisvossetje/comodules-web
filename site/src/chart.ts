@@ -1,30 +1,11 @@
 import { initializeFileLoading } from "./file";
 import { empty_page, formula_to_function, generate_x_function, generate_y_function, Page } from "./page";
+import { ToStringMap } from "./stringmap";
 import { SvgChart } from "./svgchart";
 
 // [s,i]
 type Index = [number, number];
 type Point = [number, number];
-
-function index_to_string(index: [number, number]) {
-    return index.toString();
-}
-
-export class ToStringMap {
-    map: {[key: string]: Point};
-    constructor() {
-        this.map = {};
-    }
-    public clear() {
-        this.map = {};
-    }
-    public set(key: Index, value: Point) {
-        this.map[key.toString()] = value;
-    }
-    public get(key: Index): Point | undefined {
-        return this.map[key.toString()];
-    }
-}
 
 export class Chart {
     public page: Page;
@@ -36,7 +17,8 @@ export class Chart {
     public x_function: Function;
     public y_function: Function;
 
-    public map: ToStringMap = new ToStringMap();
+    public generator_to_location: ToStringMap<Index, Point> = new ToStringMap();
+    public location_to_generators: ToStringMap<Point, Index> = new ToStringMap();
 
     constructor() {
         this.page = empty_page();
@@ -123,12 +105,12 @@ export class Chart {
     }
 
     public update_dots() {
-        this.map.clear();
+        this.generator_to_location.clear();
     
         return this.page.generators.map(el => {
             let real_el: [number,number, number[]] = [el[0], el[1], el[2]];
             let [x,y] = this.get_coordinate(real_el);
-            this.map.set([el[0],el[1]], [x,y]);
+            this.generator_to_location.set([el[0],el[1]], [x,y]);
             return this.generate_dot(real_el)
         }).join("\n");
     }
@@ -138,8 +120,8 @@ export class Chart {
             let source = line[0];
             let target = line[1];
 
-            let xy1 = this.map.get(source);
-            let xy2 = this.map.get(target);
+            let xy1 = this.generator_to_location.get(source);
+            let xy2 = this.generator_to_location.get(target);
 
             if (xy1 && xy2) {
                 let [x1,y1] = xy1;
