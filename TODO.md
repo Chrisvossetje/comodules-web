@@ -1,0 +1,5 @@
+- Implement title on top of the chart + id
+- Show the names of the degrees  
+- Implement differential
+- Implement supporting multiple pages
+- Improve the decompositions
