@@ -32,6 +32,7 @@ export class Chart {
     public page: Page;
     public svgchart: SvgChart;
 
+    public formula_degrees: HTMLInputElement;
     public x_formula_input: HTMLInputElement;
     public y_formula_input: HTMLInputElement;
 
@@ -75,6 +76,7 @@ export class Chart {
     }
 
     private init_formula_input() {
+        this.formula_degrees = document.getElementById("formula-degrees") as HTMLInputElement;
         this.x_formula_input = document.getElementById("x-formula-input-id") as HTMLInputElement;
         this.y_formula_input = document.getElementById("y-formula-input-id") as HTMLInputElement;
         this.x_formula_input.addEventListener('input', (e) => {
@@ -85,6 +87,15 @@ export class Chart {
             this.update_y_function(this.y_formula_input.value);
             this.update();
         });
+        this.update_degree_names();
+    }
+
+    private update_degree_names() {
+        let names = ["s", "i"];
+        this.page.degrees.forEach((d) => {
+            names.push(d);
+        });
+        this.formula_degrees.innerHTML = names.join("&nbsp;&nbsp;&nbsp;&nbsp;");;
     }
 
     unset_focus() {
@@ -234,8 +245,14 @@ export class Chart {
         }).join("\n");
     }
 
+    update_title() {
+        let div = document.getElementById('title-katex');
+        div.className = "generator-math";
+        katex.render(this.page.name, div, {output: "mathml"});
+    }
 
 
+    // generates elements to change color and or enable certrain struct lines
     build_lines_selectors() {
         this.lines_selector = []
         let build = {};
@@ -265,6 +282,8 @@ export class Chart {
         this.update_y_function(page.y_formula);
         
         this.update();    
+        this.update_title();
+        this.update_degree_names();
         this.build_lines_selectors();
     }  
 

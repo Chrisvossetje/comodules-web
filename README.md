@@ -20,6 +20,7 @@ To continuously build the site run:
 Note that this only watches changes in site/src, NOT in site/static
 
 The site is now statically build in the folder: _site
+
 Because of CORS reasons you need to host the site using f.e. python3 as follows:
 - cd ./_site && python3 -m http.server 8080
 

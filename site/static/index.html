@@ -14,8 +14,15 @@
 
 
   <div class="visualizer" id="visualizer">
-    <div class="visualizer" id="svgchart">
-
+    <div class="visualizer" style="position: relative;">
+      <div style="position: absolute; width: 100%; min-width: 100%; align-items: center; display: flex; font-size: 1.4em; margin: 10px;">
+        <div style="flex: 1;"></div>
+        <div style="border-radius: 10px; background-color: rgb(220 220 220 / 50%);" id="title-katex">
+        </div>
+        <div style="flex: 1;"></div>
+      </div>
+      <div class="visualizer" id="svgchart">
+      </div>
     </div>
     <div class="sidebar" id="sidebar">
       <div class="top">
@@ -47,6 +54,16 @@
 
         <div id="formula-tab" class="tab-div" style="display: none;">
           <div id="formula-div">
+            <p style="font-size: 0.85em; margin: 20px; text-align: center;">
+              <i>
+                You can include the following variables in the formulas. Note that these are javascript functions.
+              </i>
+            </p>
+            <p style="margin: 20px; text-align: center;">
+              <b id="formula-degrees">
+                s&nbsp;&nbsp;&nbsp;&nbsp;i
+              </b>
+            </p>
             <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
               <input type="submit" value="X:" />
               <input type="text" name="firstname" placeholder="x formula" id="x-formula-input-id" required />
