@@ -17,11 +17,6 @@ function arraysEqual(a, b) {
     if (a == null || b == null) return false;
     if (a.length !== b.length) return false;
   
-    // If you don't care about the order of the elements inside
-    // the array, you should sort both arrays here.
-    // Please note that calling sort on an array will modify that array.
-    // you might want to clone your array first.
-  
     for (var i = 0; i < a.length; ++i) {
       if (a[i] !== b[i]) return false;
     }
@@ -254,6 +249,9 @@ export class Chart {
 
     // generates elements to change color and or enable certrain struct lines
     build_lines_selectors() {
+        let structline_element = document.getElementById("structlines-div");
+        structline_element.innerHTML = "";
+
         this.lines_selector = []
         let build = {};
         this.page.structure_lines.forEach((line) => {
@@ -263,6 +261,8 @@ export class Chart {
         this.lines_selector = Object.keys(build).map((line_type) =>
            new StructLineHolder(line_type, this)
         );
+
+        console.log(this.lines_selector);
         update_line_styles(this);
 
     }
