@@ -31,7 +31,7 @@ function switch_view() {
     }
 }
 
-document.getElementById("resolve-id").onclick = (e) => {
+document.getElementById("resolve-id").onclick = async (e) => {
     const coalg = (document.getElementById("coalg-input-id") as HTMLInputElement).value;
     const comod = (document.getElementById("comod-input-id") as HTMLInputElement).value;
 
