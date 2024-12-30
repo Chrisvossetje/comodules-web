@@ -3,7 +3,7 @@ use std::sync::Arc;
 // The wasm-pack uses wasm-bindgen to build and generate JavaScript binding file.
 // Import the wasm-bindgen crate.
 use wasm_bindgen::prelude::*;
-use comodules::{comodule::{self, kcoalgebra::kCoalgebra, kcomodule::kComodule, kmorphism::kComoduleMorphism, traits::{Comodule, ComoduleMorphism}}, linalg::{field::{Field, Fp, F2}, flat_matrix::FlatMatrix, grading::Grading, matrix::Matrix, row_matrix::RowMatrix}, resolution::Resolution};
+use comodules::{comodule::{self, kcoalgebra::kCoalgebra, kcomodule::kComodule, traits::Comodule}, linalg::{field::F2, flat_matrix::FlatMatrix, grading::Grading, row_matrix::RowMatrix}, resolution::Resolution};
 
 
 #[wasm_bindgen]
@@ -32,14 +32,14 @@ pub fn a0() -> String {
 }
 
 #[wasm_bindgen]
-pub fn resolve(coalgebra: String, comodule: String, fp: usize, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
+pub fn resolve(coalgebra: String, _comodule: String, fp: usize, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
     match fp {
         2 => {
             if bigrading {
                 unimplemented!()
             } else {
                 let limit = i32::parse(&max_degree).unwrap();
-                let (coalg, translate) = if polynomial_coalg { 
+                let (coalg, _translate) = if polynomial_coalg { 
                     kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_polynomial_hopf_algebra(&coalgebra, limit).unwrap() 
                 } else {
                     kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_direct(&coalgebra).unwrap()
