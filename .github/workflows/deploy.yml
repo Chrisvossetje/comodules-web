@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm init
+      - run: npm run init
       - run: npm run test
 
 
