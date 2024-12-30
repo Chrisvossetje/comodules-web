@@ -262,9 +262,7 @@ export class Chart {
            new StructLineHolder(line_type, this)
         );
 
-        console.log(this.lines_selector);
         update_line_styles(this);
-
     }
 
     

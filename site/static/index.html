@@ -14,7 +14,7 @@
 
 
   <div class="visualizer" id="visualizer">
-    <div class="visualizer" style="position: relative;">
+    <div class="visualizer" id="inner_visualizer" style="position: relative;">
       <div style="position: absolute; width: 100%; min-width: 100%; align-items: center; display: flex; font-size: 1.4em; margin: 10px;">
         <div style="flex: 1;"></div>
         <div style="border-radius: 10px; background-color: rgb(220 220 220 / 50%);" id="title-katex">
@@ -22,6 +22,60 @@
         <div style="flex: 1;"></div>
       </div>
       <div class="visualizer" id="svgchart">
+      </div>
+    </div>
+    <div class="visualizer" id="inner_resolve" style="display: none;">
+      <div class="grid" style="min-width: 100%;">
+        <div id="left-resolve" style="margin: 20px;">
+          <h3> Coalgebra </h3>
+          <label>
+            <input type="checkbox" role="switch" id="polynomial-coalg-id" checked />
+            Use a polynomial description
+          </label>
+          <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
+            <input type="submit" value="Prime Field: " />
+            <input type="text" name="firstname" value="2" id="coalg-field-id" required />
+          </fieldset>
+          
+          <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="coalg-input-id">
+- FIELD
+2
+
+- GENERATOR
+xi1: 1
+xi2: 3
+
+- RELATION
+xi1^4
+xi2^2
+
+- COACTION
+xi1: 1|xi1 + xi1|1
+xi2: 1|xi2 + xi2|1 + xi1^2|xi1 
+          </textarea>
+        </div>
+        <div id="right-resolve" style="margin: 20px;">
+          <h3> Comodule </h3>
+          <label>
+            <input type="checkbox" role="switch" checked id="fp-comodule-id"/>
+            Use an F_p comodule
+          </label>
+          <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
+            <input type="submit" value="Filtration Index: " />
+            <input type="text" name="firstname" value="4" id="filtration-max-id" required />
+          </fieldset>
+          <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
+            <input type="submit" value="Maximum Stem: " />
+            <input type="text" name="firstname" value="10" id="comod-stem-id" required />
+          </fieldset>
+          <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="comod-input-id" disabled>
+- BASIS
+fp: 0
+
+- COACTION
+fp: 1|fp
+          </textarea>
+        </div>
       </div>
     </div>
     <div class="sidebar" id="sidebar">
@@ -86,8 +140,12 @@
         <div style="height: 20px;"></div>
 
         <div class="grid">
+          <button title="Load a JSON page file" id="resolve-view-id">Resolve View</button>
+          <button title="Load a JSON page file" id="resolve-id">Resolve</button>
+        </div>
+        <div class="grid">
           <button title="Load a JSON page file" id="load-json-button-id">Load</button>
-          <button title="Load a JSON page file" id="load-json-button-id">Nothing</button>
+          <button title="" id="">Nothing</button>
         </div>
         <p style="text-align: center;">View source at <a
             href="https://github.com/Chrisvossetje/comodules-web/">github</a></p>
@@ -100,9 +158,9 @@
 
 </body>
 <script>
-  function opentab(event, id) {
+  window.log = console.log
 
-    console.log(id);
+  function opentab(event, id) {
     // Get all elements with class="tabcontent" and hide them
     let els = document.getElementsByClassName('tab-div');
     for (let index = 0; index < els.length; index++) {
