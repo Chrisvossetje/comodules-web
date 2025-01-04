@@ -33,7 +33,7 @@ pub fn a0() -> String {
 
 #[wasm_bindgen]
 pub fn resolve(coalgebra: String, _comodule: String, fp: usize, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
-    match fp {
+    let resolve = match fp {
         2 => {
             type F = F2;
             parse_resolve::<F>(coalgebra, _comodule, bigrading, fp_comod, polynomial_coalg, _polynomial_comod, filtration, max_degree)
@@ -54,20 +54,22 @@ pub fn resolve(coalgebra: String, _comodule: String, fp: usize, bigrading: bool,
             alert("only primes 2,3,5,7 are implemented for now.");
             todo!()
         }
-
-    }
-    
+    };
+    resolve.unwrap_or_else(|e| {
+        alert(&e);
+        panic!()
+    })
 }
 
-pub fn parse_resolve<F: Field>(coalgebra: String, _comodule: String, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
+pub fn parse_resolve<F: Field>(coalgebra: String, _comodule: String, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> Result<String, String> {
     if bigrading {
         unimplemented!()
     } else {
         let limit = i32::parse(&max_degree).unwrap();
         let (coalg, _translate) = if polynomial_coalg { 
-            kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_polynomial_hopf_algebra(&coalgebra, limit).unwrap() 
+            kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_polynomial_hopf_algebra(&coalgebra, limit)? 
         } else {
-            kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_direct(&coalgebra).unwrap()
+            kCoalgebra::<i32,F2,FlatMatrix<F2>>::parse_direct(&coalgebra)?
         };
 
         let coalg = Arc::new(coalg);
@@ -80,6 +82,6 @@ pub fn parse_resolve<F: Field>(coalgebra: String, _comodule: String, bigrading: 
 
         let mut res = Resolution::new(comod);
         res.resolve_to_s(filtration, limit);
-        res.generate_page().to_string()
+        Ok(res.generate_page().to_string())
     }
 }
