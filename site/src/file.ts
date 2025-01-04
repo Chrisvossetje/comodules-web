@@ -41,6 +41,19 @@ function attachDragAndDrop(chart: Chart) {
         }
         input.click();
     }
+
+    let save_button = document.getElementById("save-json-button-id");
+    save_button.onclick = (e) => {
+        const str = JSON.stringify(chart.page);
+        var a = document.createElement('a');
+        a.setAttribute('href', 'data:text/json;charset=uft-8,' + str);
+        a.setAttribute('download', "page.json");
+        a.style.display = 'none';
+        a.click();
+
+        // document.body.appendChild
+    }
+
 }
 
 

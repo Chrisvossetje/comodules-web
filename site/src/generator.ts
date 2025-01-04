@@ -15,16 +15,13 @@ export function name_to_element(name: string): HTMLElement {
     return div;
 }
 
-export function generated_by_to_element(line: string, from: string, constant: string, to: string) : HTMLElement {
+export function generated_by_to_element(from: string, to: string[]) : HTMLElement {
     let div = document.createElement('div');
-    div.id = `from-${from}-${constant}-${to}`;
+    div.id = `from-${from}-${to.join()}`;
     div.className = "generator-math";
-    let name;
-    if (constant == "1") {
-        name = line + " " + from + " = " + to;
-    } else {
-        name = constant + line + " " + from + " = " + to;
-    }
+    
+    const name = from + " = " + to.join(" + ");
+    
     katex.render(name, div, {output: "mathml"});
     return div;
 }

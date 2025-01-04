@@ -32,11 +32,6 @@
             <input type="checkbox" role="switch" id="polynomial-coalg-id" checked />
             Use a polynomial description
           </label>
-          <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
-            <input type="submit" value="Prime Field: " />
-            <input type="text" name="firstname" value="2" id="coalg-field-id" required />
-          </fieldset>
-          
           <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="coalg-input-id">
 - FIELD
 2
@@ -56,10 +51,6 @@ xi2: 1|xi2 + xi2|1 + xi1^2|xi1
         </div>
         <div id="right-resolve" style="margin: 20px;">
           <h3> Comodule </h3>
-          <label>
-            <input type="checkbox" role="switch" checked id="fp-comodule-id"/>
-            Use an F_p comodule
-          </label>
           <fieldset role="group" style="padding: 10px; margin-bottom: 0px; padding-left: 40px; padding-right: 40px;">
             <input type="submit" value="Filtration Index: " />
             <input type="text" name="firstname" value="4" id="filtration-max-id" required />
@@ -68,13 +59,29 @@ xi2: 1|xi2 + xi2|1 + xi1^2|xi1
             <input type="submit" value="Maximum Stem: " />
             <input type="text" name="firstname" value="10" id="comod-stem-id" required />
           </fieldset>
-          <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="comod-input-id" disabled>
-- BASIS
-fp: 0
-
-- COACTION
-fp: 1|fp
-          </textarea>
+          <label>
+            <input type="checkbox" role="switch" checked id="fp-comodule-id" onclick='
+            if (document.getElementById("fp-comodule-id").checked) {
+              document.getElementById("hide-comodule-id").style.display = "none";
+            } else {
+              document.getElementById("hide-comodule-id").style.display = "";
+            } 
+            '/>
+            Use an F_p comodule
+          </label>
+          <div id="hide-comodule-id" style="display: none;">
+            <label>
+              <input type="checkbox" role="switch" id="polynomial-comod-id" />
+              Use a polynomial description
+            </label>
+            <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="comod-input-id">
+  - BASIS
+  fp: 0
+  
+  - COACTION
+  fp: 1|fp
+            </textarea>
+          </div>
         </div>
       </div>
     </div>
@@ -145,7 +152,7 @@ fp: 1|fp
         </div>
         <div class="grid">
           <button title="Load a JSON page file" id="load-json-button-id">Load</button>
-          <button title="" id="">Nothing</button>
+          <button title="Save current page" id="save-json-button-id">Save</button>
         </div>
         <p style="text-align: center;">View source at <a
             href="https://github.com/Chrisvossetje/comodules-web/">github</a></p>

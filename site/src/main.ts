@@ -33,9 +33,12 @@ function switch_view() {
 
 document.getElementById("resolve-id").onclick = async (e) => {
     const coalg = (document.getElementById("coalg-input-id") as HTMLInputElement).value;
+    
     const comod = (document.getElementById("comod-input-id") as HTMLInputElement).value;
+    
+    let field_str = coalg.split("\n")[1];
 
-    const field = Number((document.getElementById("coalg-field-id") as HTMLInputElement).value);
+    const field = Number(field_str);
     const poly_coalg = Boolean((document.getElementById("polynomial-coalg-id") as HTMLInputElement).checked);
     const fp_comod = Boolean((document.getElementById("fp-comodule-id") as HTMLInputElement).checked);
     

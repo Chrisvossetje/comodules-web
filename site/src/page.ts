@@ -36,6 +36,7 @@ export function parse_json(json: string): Page {
     return page;
 }
 
+
 export function empty_page(): Page {
     return {
         name: "empty",

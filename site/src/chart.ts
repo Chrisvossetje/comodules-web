@@ -111,21 +111,43 @@ export class Chart {
             // Add a generator element for each thingy
             this.generator_div.innerHTML = "";
             this.generated_by_div.innerHTML = "";
+
+            let temp_map: {[key: string]: string[]} = {};
+
             gens.forEach((gen) => {
                 let real_gen = this.index_to_generator.get(gen);
                 let name = gen_to_name(real_gen);
                 let el = name_to_element(name);
                 this.generator_div.appendChild(el);
 
+
                 this.page.structure_lines.filter((lin) => {
                     return arraysEqual(lin[1], gen);
                 }).forEach((lin) => {
                     let from_gen = this.index_to_generator.get(lin[0]);
-                    let from_name = gen_to_name(from_gen);
-                    let eq = generated_by_to_element(lin[3], from_name, lin[2].toString(), name);
-                    this.generated_by_div.appendChild(eq);
+                    let from_name = lin[3] + " "+ gen_to_name(from_gen);
+
+                    let to_name;
+                    let constant = lin[2].toString();
+                    if (constant == "1") {
+                        to_name = name;
+                    } else {
+                        to_name = constant + name;
+                    }
+
+                    if (temp_map[from_name] == undefined) {
+                        temp_map[from_name] = [to_name]
+                    } else {
+                        temp_map[from_name].push(to_name);
+                    }
                 })
+
+
             });
+            for (const [k,v] of Object.entries(temp_map)) {
+                let eq = generated_by_to_element(k,v);
+                this.generated_by_div.appendChild(eq);
+            }
 
 
         } else {
