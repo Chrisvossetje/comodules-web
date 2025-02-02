@@ -2,6 +2,7 @@ import { Chart } from "./chart";
 
 import init, { a0, resolve } from "../pkg/rust_logic.js";
 import { parse_json } from "./page";
+import { initialize_examples } from "./examples";
 
 
 let chart = new Chart();
@@ -31,7 +32,10 @@ function switch_view() {
     }
 }
 
+initialize_examples();
+
 document.getElementById("resolve-id").onclick = async (e) => {
+    const name = (document.getElementById("name-input-id") as HTMLInputElement).value;
     const coalg = (document.getElementById("coalg-input-id") as HTMLInputElement).value;
     
     const comod = (document.getElementById("comod-input-id") as HTMLInputElement).value;
@@ -45,7 +49,7 @@ document.getElementById("resolve-id").onclick = async (e) => {
     const filt_max = Number((document.getElementById("filtration-max-id") as HTMLInputElement).value);
     const comod_stem = (document.getElementById("comod-stem-id") as HTMLInputElement).value;
     
-    const page = resolve(coalg,comod, field, false, fp_comod, poly_coalg, false, filt_max, comod_stem);
+    const page = resolve(name, coalg,comod, field, false, fp_comod, poly_coalg, false, filt_max, comod_stem);
 
     chart.replace_page(parse_json(page));
 

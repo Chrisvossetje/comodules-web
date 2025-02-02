@@ -32,23 +32,23 @@ pub fn a0() -> String {
 }
 
 #[wasm_bindgen]
-pub fn resolve(coalgebra: String, _comodule: String, fp: usize, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
+pub fn resolve(name: String, coalgebra: String, comodule: String, fp: usize, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, polynomial_comod: bool, filtration: usize, max_degree: String) -> String {
     let resolve = match fp {
         2 => {
             type F = F2;
-            parse_resolve::<F>(coalgebra, _comodule, bigrading, fp_comod, polynomial_coalg, _polynomial_comod, filtration, max_degree)
+            parse_resolve::<F>(name, coalgebra, comodule, bigrading, fp_comod, polynomial_coalg, polynomial_comod, filtration, max_degree)
         },
         3 => {
             type F = Fp<3>;
-            parse_resolve::<F>(coalgebra, _comodule, bigrading, fp_comod, polynomial_coalg, _polynomial_comod, filtration, max_degree)
+            parse_resolve::<F>(name, coalgebra, comodule, bigrading, fp_comod, polynomial_coalg, polynomial_comod, filtration, max_degree)
         },
         5 => {
             type F = Fp<5>;
-            parse_resolve::<F>(coalgebra, _comodule, bigrading, fp_comod, polynomial_coalg, _polynomial_comod, filtration, max_degree)
+            parse_resolve::<F>(name, coalgebra, comodule, bigrading, fp_comod, polynomial_coalg, polynomial_comod, filtration, max_degree)
         },
         7 => {
             type F = Fp<7>;
-            parse_resolve::<F>(coalgebra, _comodule, bigrading, fp_comod, polynomial_coalg, _polynomial_comod, filtration, max_degree)
+            parse_resolve::<F>(name, coalgebra, comodule, bigrading, fp_comod, polynomial_coalg, polynomial_comod, filtration, max_degree)
         }
         _ => {
             alert("only primes 2,3,5,7 are implemented for now.");
@@ -61,7 +61,7 @@ pub fn resolve(coalgebra: String, _comodule: String, fp: usize, bigrading: bool,
     })
 }
 
-pub fn parse_resolve<F: Field>(coalgebra: String, _comodule: String, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> Result<String, String> {
+pub fn parse_resolve<F: Field>(name: String, coalgebra: String, _comodule: String, bigrading: bool, fp_comod: bool, polynomial_coalg: bool, _polynomial_comod: bool, filtration: usize, max_degree: String) -> Result<String, String> {
     if bigrading {
         unimplemented!()
     } else {
@@ -82,6 +82,8 @@ pub fn parse_resolve<F: Field>(coalgebra: String, _comodule: String, bigrading: 
 
         let mut res = Resolution::new(comod);
         res.resolve_to_s(filtration, limit);
-        Ok(res.generate_page().to_string())
+        let mut page = res.generate_page();
+        page.name = name;
+        Ok(page.to_string())
     }
 }
