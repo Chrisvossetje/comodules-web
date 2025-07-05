@@ -39,7 +39,7 @@ jobs:
 
       - name: Build static files
         id: build
-        run: npm run minify
+        run: npm run minify_alt
 
       - name: Upload static files as artifact
         id: deployment
