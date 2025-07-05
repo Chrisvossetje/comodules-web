@@ -43,15 +43,14 @@ document.getElementById("resolve-id").onclick = async (e) => {
     let field_str = coalg.split("\n")[1];
 
     const field = Number(field_str);
-    const poly_coalg = Boolean((document.getElementById("polynomial-coalg-id") as HTMLInputElement).checked);
     const fp_comod = Boolean((document.getElementById("fp-comodule-id") as HTMLInputElement).checked);
     
     const filt_max = Number((document.getElementById("filtration-max-id") as HTMLInputElement).value);
     const comod_stem = (document.getElementById("comod-stem-id") as HTMLInputElement).value;
     
-    const page = resolve(name, coalg,comod, field, false, fp_comod, poly_coalg, false, filt_max, comod_stem);
+    const page = resolve(name, coalg,comod, field, false, fp_comod, filt_max, comod_stem);
 
-    chart.replace_page(parse_json(page));
+    chart.replace_sseq(parse_json(page));
 
     if (resolve_display) {switch_view()} 
 };

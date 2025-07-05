@@ -7,10 +7,10 @@ export function initializeFileLoading(chart: Chart) {
 }
 
 function localjsonpage(chart: Chart) {
-    fetch("./page.json").then(x => x.text()).then(x => {
-        let page = parse_json(x);
-        if (page != null) {
-            chart.replace_page(page);
+    fetch("./sseq.json").then(x => x.text()).then(x => {
+        let sseq = parse_json(x);
+        if (sseq != null) {
+            chart.replace_sseq(sseq);
         }
     });
 }
@@ -44,10 +44,10 @@ function attachDragAndDrop(chart: Chart) {
 
     let save_button = document.getElementById("save-json-button-id");
     save_button.onclick = (e) => {
-        const str = JSON.stringify(chart.page);
+        const str = JSON.stringify(chart.sseq);
         var a = document.createElement('a');
         a.setAttribute('href', 'data:text/json;charset=uft-8,' + str);
-        a.setAttribute('download', "page.json");
+        a.setAttribute('download', "sseq.json");
         a.style.display = 'none';
         a.click();
 
@@ -62,9 +62,9 @@ function handleFile(chart: Chart, file: File) {
         return;
     }
     file.text().then(x => {
-        let page = parse_json(x);
-        if (page != null) {
-            chart.replace_page(page);
+        let sseq = parse_json(x);
+        if (sseq != null) {
+            chart.replace_sseq(sseq);
         }
     })
 }

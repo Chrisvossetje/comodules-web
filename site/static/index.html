@@ -15,6 +15,7 @@
 
   <div class="visualizer" id="visualizer">
     <div class="visualizer" id="inner_visualizer" style="position: relative;">
+      <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle sidebar">→</button>
       <div style="position: absolute; width: 100%; min-width: 100%; align-items: center; display: flex; font-size: 1.4em; margin: 10px;">
         <div style="flex: 1;"></div>
         <div style="border-radius: 10px; background-color: rgb(220 220 220 / 50%);" id="title-katex">
@@ -34,10 +35,6 @@
           </fieldset>
           <select id="examples-dropdown-id" name="select" aria-label="Select" required>
           </select>
-          <label>
-            <input type="checkbox" role="switch" id="polynomial-coalg-id" checked />
-            Use a polynomial description
-          </label>
           <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="coalg-input-id">
 - FIELD
 2
@@ -76,10 +73,6 @@ xi2: 1|xi2 + xi2|1 + xi1^2|xi1
             Use an F_p comodule
           </label>
           <div id="hide-comodule-id" style="display: none;">
-            <label>
-              <input type="checkbox" role="switch" id="polynomial-comod-id" />
-              Use a polynomial description
-            </label>
             <textarea placeholder="" aria-label="Professional short bio" style="height: 70%;" id="comod-input-id">
   - BASIS
   fp: 0
@@ -191,6 +184,33 @@ xi2: 1|xi2 + xi2|1 + xi1^2|xi1
     document.getElementById(id).style.display = "block";
     event.currentTarget.className = event.currentTarget.className.replace("secondary", "");
   }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebar-toggle');
+    
+    if (sidebar.classList.contains('collapsed')) {
+      
+      sidebar.classList.remove('collapsed');
+      toggle.innerHTML = '→';
+    } else {
+      sidebar.classList.add('collapsed');
+      toggle.innerHTML = '←';
+    }
+
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
+
+  }
+
+  // Add event listener when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('sidebar-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', toggleSidebar);
+    }
+  });
 </script>
 
 </html>

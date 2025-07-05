@@ -7,8 +7,6 @@ type Example = {
     comodule: string, 
     bigrading: boolean, 
     fp_comod: boolean, 
-    polynomial_coalg: boolean,
-    polynomial_comod: boolean, 
     filtration: number, 
     max_degree: string
 }
@@ -39,9 +37,7 @@ function select_example(example: Example) {
     (document.getElementById("comod-input-id") as HTMLInputElement).value = example.comodule;
     
     (document.getElementById("fp-comodule-id") as HTMLInputElement).checked = example.fp_comod;
-    (document.getElementById("polynomial-coalg-id") as HTMLInputElement).checked = example.polynomial_coalg;
 
-    (document.getElementById("polynomial-comod-id") as HTMLInputElement).checked = example.polynomial_comod;
     // (document.getElementById("bigraded-id") as HTMLInputElement).checked = example.bigrading;
     
     (document.getElementById("filtration-max-id") as HTMLInputElement).value = example.filtration.toString();
@@ -67,8 +63,6 @@ xi1: 1|xi1 + xi1|1
     comodule: "",
     bigrading: false,
     fp_comod: true,
-    polynomial_coalg: false,
-    polynomial_comod: false,
     filtration: 20,
     max_degree: "40"
 }
@@ -94,8 +88,6 @@ xi2: 1|xi2 + xi2|1 + xi1^2|xi1
     comodule: "",
     bigrading: false,
     fp_comod: true,
-    polynomial_coalg: true,
-    polynomial_comod: false,
     filtration: 20,
     max_degree: "40"
 }

@@ -1,7 +1,7 @@
 import { line } from "d3";
 import { initializeFileLoading } from "./file";
 import { StructLineHolder, update_line_styles } from "./lines";
-import { empty_page, formula_to_function, generate_x_function, generate_y_function, Page } from "./page";
+import { empty_sseq, formula_to_function, generate_x_function, generate_y_function, Page, SSeq } from "./page";
 import { ToStringMap } from "./stringmap";
 import { SvgChart } from "./svgchart";
 import katex from "katex";
@@ -24,7 +24,8 @@ function arraysEqual(a, b) {
   }
 
 export class Chart {
-    public page: Page;
+    public sseq: SSeq;
+    public currentPageIndex: number = 0;
     public svgchart: SvgChart;
 
     public formula_degrees: HTMLInputElement;
@@ -45,8 +46,12 @@ export class Chart {
 
     public lines_selector: StructLineHolder[] = [];
 
+    get currentPage(): Page {
+        return this.sseq.pages[this.currentPageIndex];
+    }
+
     constructor() {
-        this.page = empty_page();
+        this.sseq = empty_sseq();
  
         this.svgchart = new SvgChart();
         document.getElementById("svgchart").append(this.svgchart);
@@ -87,7 +92,7 @@ export class Chart {
 
     private update_degree_names() {
         let names = ["s", "i"];
-        this.page.degrees.forEach((d) => {
+        this.sseq.degrees.forEach((d) => {
             names.push(d);
         });
         this.formula_degrees.innerHTML = names.join("&nbsp;&nbsp;&nbsp;&nbsp;");;
@@ -121,7 +126,7 @@ export class Chart {
                 this.generator_div.appendChild(el);
 
 
-                this.page.structure_lines.filter((lin) => {
+                this.currentPage.structure_lines.filter((lin) => {
                     return arraysEqual(lin[1], gen);
                 }).forEach((lin) => {
                     let from_gen = this.index_to_generator.get(lin[0]);
@@ -172,7 +177,7 @@ export class Chart {
     update_x_function(x: string) {
         this.x_formula_input.value = x;
         try {
-            this.x_function = formula_to_function(this.page.degrees, x);
+            this.x_function = formula_to_function(this.sseq.degrees, x);
         } catch {
 
         }
@@ -181,7 +186,7 @@ export class Chart {
     update_y_function(y: string) {
         this.y_formula_input.value = y;
         try {
-            this.y_function = formula_to_function(this.page.degrees, y);
+            this.y_function = formula_to_function(this.sseq.degrees, y);
         } catch {
 
         }
@@ -210,7 +215,7 @@ export class Chart {
 
         let temp: ToStringMap<Point, [Point, [number, number, number[], string][]]>  = new ToStringMap();
 
-        this.page.generators.forEach(el => {
+        this.currentPage.generators.forEach(el => {
             let real_el: [number,number, number[]] = [el[0], el[1], el[2]];
             let xy = this.get_coordinate(real_el);
             if (temp.has(xy)) {
@@ -245,7 +250,7 @@ export class Chart {
     
 
     update_lines() {
-        return this.page.structure_lines.map((line) => {            
+        return this.currentPage.structure_lines.map((line) => {            
             let source = line[0];
             let target = line[1];
 
@@ -265,7 +270,7 @@ export class Chart {
     update_title() {
         let div = document.getElementById('title-katex');
         div.className = "generator-math";
-        katex.render(this.page.name, div, {output: "mathml"});
+        katex.render(this.sseq.name, div, {output: "mathml"});
     }
 
 
@@ -276,7 +281,7 @@ export class Chart {
 
         this.lines_selector = []
         let build = {};
-        this.page.structure_lines.forEach((line) => {
+        this.currentPage.structure_lines.forEach((line) => {
             build[line[3]] = "";
         });
 
@@ -289,17 +294,18 @@ export class Chart {
 
     
 
-    replace_page(page: Page) {
-        this.page = page;    
+    replace_sseq(sseq: SSeq) {
+        this.sseq = sseq;
+        this.currentPageIndex = 0; // Start with the first page
         
         this.index_to_generator.clear();
-        this.page.generators.forEach((gen) => {
+        this.currentPage.generators.forEach((gen) => {
             this.index_to_generator.set([gen[0],gen[1]], gen); 
         });
 
         
-        this.update_x_function(page.x_formula);
-        this.update_y_function(page.y_formula);
+        this.update_x_function(sseq.x_formula);
+        this.update_y_function(sseq.y_formula);
         
         this.update();    
         this.update_title();
